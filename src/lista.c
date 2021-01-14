@@ -17,15 +17,22 @@ struct _NodoLista {
 static NodoLista*
 nodo_lista_nuevo(void* elemento)
 {
-        //implementa
-        return NULL;
+        NodoLista nuevoNodo =
+                nuevoNodo -> anterior = null;
+    nuevoNodo -> anterior = null;
+    nuevoNodo -> elemento = elemento;
+    return NULL;
 }
 
 Lista*
 lista_nueva(void)
 {
         //implementa
-        return NULL;
+
+    NodoLista -> cabeza = null;
+    NodoLista -> ravo = null;
+    NodoLista -> longitud = 0;
+    return NULL;
 }
 
 NodoLista*
@@ -187,6 +194,13 @@ lista_busca(Lista*       lista,
             void*        elemento)
 {
         assert(lista != NULL);
+
+        int contador = 0;
+
+        while lista_dame(lista,contador).elemento != elemento
+            contador++;
+        return false
+        return true
 	//implementa
 }
 
