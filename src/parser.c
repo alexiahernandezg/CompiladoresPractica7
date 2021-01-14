@@ -31,8 +31,15 @@ int T() {
 }
 
 int B() {
-  //implementa
-  return 0;
+  if(equals(tokenActual, INT)){
+    eat(1005);
+    return 1005;
+  }else if(equals(tokenActual, FLOAT)){
+    eat(1006);
+    return 1006;
+  }else{
+    return 1009;
+  }
 }
 
 int C (int base) { 
