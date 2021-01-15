@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "simbolo.c"
 #include <stdio.h>
 extern token *yylex();
 extern int yylineno;
@@ -55,14 +56,14 @@ int C (int base) {
 void L(int tipo) {
   if(equals(tokenActual, ID)){
     if(!buscar(tokenActual->valor)){
-      simbolo sim = crea_simbolo(tokenActual->valor, dir, tipo, 0, null); 
+      simbolo* sim = crea_simbolo(tokenActual->valor, dir, tipo, 0, null); 
       lista_agrega_final(tablaSimbolos, sim); 
       dir += getTam(tipo);
     }else{
       error("Ya existe la variable");
     }
     eat(ID);
-    LP();
+    LP(tipo);
   }else{
     error("Error de sintaxis");
   }
@@ -70,23 +71,41 @@ void L(int tipo) {
 
 //Esta es L'
 void LP(int tipo) {
-  
+  if(equals(tokenActual, COMA)){
+    eat(COMA);
+    if(buscar(tokenActual->valor) == -1){
+      simbolo* simb = crea_simbolo(tokenActual->valor, dir, tipo, 0, null); 
+      lista_agrega_final(tablaSimbolos, simb); 
+      dir += getTam(tipo);
+    }else{
+      error("Ya existe la variable");
+    }
+    eat(ID);
+    LP(tipo);
+  }
 }
 
 //para buscar los simbolos
-boolean buscar(char *simbolo){
+int buscar(char *simbolo){
   while(tablaSimbolos != NULL){
-    if(equals(tablaSimbolos->id, tokenActual)){
-      return true;
+    if(equals(tablaSimbolos->simbolo->id, simbolo)){
+      return 1;
     }else{
-      return false;
+      return -1;
     }
     tablaSimbolos->NodoLista->siguiente;
   }
 }
 
-getTam(int id){
-
+int getTam(int id){
+ while(tablaTipos != NULL){
+    if(equals(tablaTipos->tipo->id, id)){
+      return tablaTipos->tipo->tam;
+    }else{
+      return -1;
+    }
+    tablaTipos->NodoLista->siguiente;
+  } 
 }
 
 void error(char *msg) {
